@@ -1,0 +1,56 @@
+[
+  {
+    "sku": [
+      {
+        "list": [
+          {
+            "id": 2259,
+            "price": 120,
+            "discount": 122,
+            "s1": "1215",
+            "s2": "1193",
+            "s3": "0",
+            "s4": "0",
+            "s5": "0",
+            "stock_num": 20,
+            "goods_id": 946755
+          }
+        ]
+      },
+      {
+        "price": "5.00"
+      },
+      {
+        "stock_num": 227
+      },
+      {
+        "none_sku": false
+      },
+      {
+        "hide_stock": false
+      },
+      {
+        "goods_id": "946755"
+      },
+      {
+        "quota": 3
+      },
+      {
+        "quota_used": 0
+      },
+      {
+        "goods_info": {
+          "title": "测试商品A",
+          "picture": "https://img.yzcdn.cn/upload_files/2017/03/16/Fs_OMbSFPa183sBwvG_94llUYiLa.jpeg?imageView2/2/w/100/h/100/q/75/format/jpg"
+        }
+      },
+      {
+        "initialSku": {
+          "s1": "0001",
+          "s2": "1001",
+          "selectedNum": 3
+        }
+      }
+    ]
+  }
+]
