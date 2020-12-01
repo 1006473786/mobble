@@ -65,6 +65,7 @@ export default {
 			img {
 				width: 30vw;
 				margin: 0 0.1rem;
+				height: 2rem;
 			}
 			p {
 				white-space: wrap;
