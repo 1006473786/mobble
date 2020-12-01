@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<div id="nav">
-			<!-- <keep-alive> -->
+			<!-- <keep-alive include="goShop"> -->
 			<router-view />
 			<!-- </keep-alive> -->
 			<van-tabbar v-model="active" v-if="show" class="ttt">

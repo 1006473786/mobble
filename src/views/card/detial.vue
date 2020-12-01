@@ -27,7 +27,7 @@
 				@click="onClickButton()"
 			/>
 		</van-goods-action>
-		<goShop v-if="show" v-on:showvalue="getvalue" />
+		<goShop v-if="show" v-on:showvalue="getvalue" :postshopData="shopdata" />
 
 		<!-- <button @click="goshop" class="btn_jump">goshop ></button> -->
 	</div>
@@ -43,7 +43,8 @@ export default {
 		return {
 			take: [],
 			show: false,
-			list: []
+			list: [],
+			shopdata: []
 		}
 	},
 	created() {
@@ -61,11 +62,12 @@ export default {
 		},
 		onClickButton() {
 			this.show = !this.show;
+			this.shopdata = JSON.parse(localStorage.getItem("detiallist"));
 			// this.show01 = !this.show01;
 			// Toast('点击按钮');
 		},
 		loadlocal() {
-			var arr = sessionStorage.getItem('detiallist');
+			var arr = localStorage.getItem('detiallist');
 			this.take = JSON.parse(arr);
 			// console.log(this.take);
 		},

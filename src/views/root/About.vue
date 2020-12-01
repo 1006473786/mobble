@@ -1,42 +1,47 @@
 <template>
 	<div>
-		<van-list
-			v-model="loading"
-			:finished="finished"
-			finished-text="没有更多了"
-			@load="onLoad"
-		>
-			<van-cell v-for="item in list" :key="item" :title="item" />
-		</van-list>
+		<div class="radio">
+			<form>
+				naem:<input type="radio" v-model="checkedValue" name="aa" /> age:<input
+					type="radio"
+					v-model="checkedValue"
+					name="aa"
+				/>
+				num: <input type="radio" v-model="checkedValue" name="aa" />
+			</form>
+			<button @click="add">441621</button>
+		</div>
 	</div>
 </template>
+ 
 <script>
 export default {
 	data() {
 		return {
-			list: [],
-			loading: false,
-			finished: false,
+			radioData: [
+				{ value: '5年', id: '5' },
+				{ value: '10年', id: '10' },
+				{ value: '20年', id: '20' },
+				{ value: '长期有效', id: '30' },
+			],
+			checkedValue: '',
+			answer: [],
 		};
 	},
-	methods: {
-		onLoad() {
-			// 异步更新数据
-			// setTimeout 仅做示例，真实场景中一般为 ajax 请求
-			setTimeout(() => {
-				for (let i = 0; i < 10; i++) {
-					this.list.push(this.list.length + 1);
-				}
-
-				// 加载状态结束
-				this.loading = false;
-
-				// 数据全部加载完成
-				if (this.list.length >= 40) {
-					this.finished = true;
-				}
-			}, 1000);
-		},
+	//checkedValue的值就是选中的值，我们只需要实时监控他的值就可以了
+	watch: {
+		checkedValue: function () {
+			this.answer = [];
+			// this.answer.push(this.radioData[index]);
+			// this.answer = this.$refs.getvalue.value;
+			console.log(this.$refs.getvalue.checkedValue)
+			// console.log(this.answer);
+		}
 	},
-};
+	methods: {
+		add() {
+			// console.log(this.$refs.getvalue.inner)
+		}
+	}
+}
 </script>

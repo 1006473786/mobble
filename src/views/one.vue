@@ -45,6 +45,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .recm_title {
+	min-height: 5rem;
 	width: 100%;
 	background: #0095ff25;
 	margin-bottom: 2rem;

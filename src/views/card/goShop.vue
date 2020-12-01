@@ -8,35 +8,42 @@
 							X
 						</button>
 					</h2>
-					<i>剩余件数{{ 1 }}</i
-					><br />
+				</li>
+				<li>
+					<i>剩余件数{{ 1 }}</i>
+					<br />
 					<i>请选择 &nbsp; &nbsp;颜色 &nbsp; 尺寸 &nbsp; 加料</i>
 				</li>
 				<li class="imgs">
-					<div>
-						<img :src="take.thumb" />
-						<h3>红</h3>
-					</div>
-					<div>
-						<img :src="take.thumb" />
-						<h3>黄</h3>
-					</div>
-					<div>
-						<img :src="take.thumb" />
-						<h3>蓝</h3>
+					<div
+						class="imgsss"
+						v-for="(item, idx) in take.thumbs"
+						:key="idx"
+						v-bind:class="idx == index ? 'hover' : ''"
+						@click="changeco(idx)"
+					>
+						<img :src="item.thumb" />
+						<h3>1</h3>
 					</div>
 				</li>
 				<li>
 					<h2>尺寸</h2>
 					<form class="weicot_radio1">
-						<input type="radio" name="p_1" value="01" id="p_11" /><label
-							for="p_11"
-							>大</label
-						>
-						<input type="radio" name="p_1" value="02" id="p_22" /><label
-							for="p_22"
-							>小</label
-						>
+						<input
+							type="radio"
+							name="p_1"
+							value="01"
+							id="p_11"
+							v-model="size"
+							@click="checked"
+						/><label for="p_11">大</label>
+						<input
+							type="radio"
+							name="p_1"
+							value="02"
+							id="p_22"
+							v-model="size"
+						/><label for="p_22">小</label>
 					</form>
 				</li>
 				<li>
@@ -58,17 +65,22 @@
 				</li>
 				<li>
 					<h2>购买数量</h2>
-					<button class="style-btn" @click="add">+</button>{{ take.num
-					}}<button class="style-btn" @click="minus">-</button>
+					<button class="style-btn" @click="add">-</button>{{ take.num
+					}}<button class="style-btn" @click="minus">+</button>
 				</li>
 				<li>
 					<h2>留言:<input type="text" placeholder="请输入与商家协商内容" /></h2>
 				</li>
+				<li>总价：{{ take.total }}元</li>
 				<li class="btnli02">
-					<van-button color="linear-gradient(to right, #f8d20d, #f39213)"
+					<van-button
+						color="linear-gradient(to right, #f8d20d, #f39213)"
+						@click="addshop"
 						>加入购物车</van-button
 					>
-					<van-button color="linear-gradient(to right, #f0653e, #e00d33)"
+					<van-button
+						color="linear-gradient(to right, #f0653e, #e00d33)"
+						@click="buy"
 						>立即购买</van-button
 					>
 				</li>
@@ -83,37 +95,33 @@ export default {
 	data() {
 		return {
 			show: true,
-			skudata: [],
 			show01: false,
 			take: [],
 			checkbox: false,
-			checkboxGroup: [],
+			index: 0,
+			size: '',
+			godata: [],
+			val: {}
+		}
+	},
+	props: {
+		postshopData: {
+			type: Object
 		}
 	},
 	methods: {
-		getshop() {
-			axios.get("./json/shopdata.json").then(res => {
-				var arr = res.data[0].sku;
-				this.skudata = arr;
-				console.log(this.skudata);
-			})
+		changeco(idx) {
+			this.index = idx;
 		},
+
 		add() {
-			this.take.num++;
+			this.take.num--;
+			this.take.total -= Number(this.take.price);
 		},
 		minus() {
-			this.take.num--;
+			this.take.num++;
+			this.take.total += Number(this.take.price)
 		},
-		// onAddCartClicked(data) { //加入购物车
-		// 	// this.$toast('add cart:' + JSON.stringify(data));
-		// },
-		// onBuyClicked(data) { //立即购买
-		// 	// this.$toast('buy:' + JSON.stringify(data));
-		// 	// console.log(JSON.stringify(data))
-		// },
-		// show1() {
-		// 	this.show = !this.show;
-		// },
 		close() {
 			this.show = false;
 			this.$emit("showvalue", this.show)
@@ -122,123 +130,70 @@ export default {
 			var e = e || event;
 			var target = e.target || e.srcElement;
 			if (target.nodeName.toLowerCase() === 'button') {
-				console.log(1);
+				// 事件委托
+				// console.log(1);
 			}
+		},
+		changeList(index) {
+			this.n = index; //this指向app
+		},
+		setItem() {
+			localStorage.setItem("cards", JSON.stringify(this.godata));
+		},
+		addshop() {
+
+			var brr = this.postshopData;
+			// localStorage.setItem('card', JSON.stringify(brr));
+			if (this.godata.length === 0) {
+				this.godata.push(brr);
+				this.setItem();
+			} else {
+				var flag = true;
+				for (let i = 0; i < this.godata.length; i++) {
+					if (this.godata[i].id === brr.id) {
+						this.godata[i].num++;
+						this.godata[i].total = this.godata[i].num * this.godata[i].price;
+						// console.log(this.godata[i]);
+						this.setItem();
+						flag = false;
+						// break;
+					}
+				}
+				if (flag) {
+					this.godata.push(brr);
+					this.setItem();
+				}
+			}
+			this.close();
+		},
+		buy() {
+			console.log(12);
+		},
+		checked(value) {
+			console.log(event.target.checked)
 		}
 	},
-	mounted() {
-		this.getshop();
-		var arr = sessionStorage.getItem('detiallist')
-		this.take = JSON.parse(arr);
-		console.log(this.take);
+	created() {
+		console.log(localStorage.cards);
+		if (localStorage.cards) {
+			this.godata = JSON.parse(localStorage.cards);
+			for (var i = 0; i < this.godata.length; i++) {
+				if (this.godata[i].id == this.take.id) {
+					this.take = this.godata[i];
+					break;
+				}
+			}
+		}
+		this.take = this.postshopData;
 	}
 }
 </script>
 <style lang="less" scoped>
-.weicot_radio input[type="checkbox"] {
-	display: none;
+@import "../../style/goShop.less";
+.imgsss {
+	background: #ccc;
 }
-.weicot_radio input[type="checkbox"] + label {
-	padding: 0.2em 1em;
-	border: 1px solid #cccccc;
-	// /*  border-radius:0.5em;*/
-	color: #999;
-	border-radius: 5px;
-	margin: 0 0.1rem;
-	zoom: 1.8;
-}
-.weicot_radio input[type="checkbox"]:checked + label {
-	padding: 0.2em 1em;
-	border: 1px solid #3399cc;
-	/* border-radius: 0.5em;*/
-	background: #3399cc;
-	color: #ffffff;
-	zoom: 1.8;
-}
-
-.weicot_radio1 input[type="radio"] {
-	display: none;
-}
-.weicot_radio1 input[type="radio"] + label {
-	padding: 0.2em 1em;
-	border: 1px solid #cccccc;
-	// /*  border-radius:0.5em;*/
-	color: #999;
-	border-radius: 5px;
-	margin: 0 0.1rem;
-	zoom: 1.8;
-}
-.weicot_radio1 input[type="radio"]:checked + label {
-	padding: 0.2em 1em;
-	border: 1px solid #3399cc;
-	/* border-radius: 0.5em;*/
-	background: #3399cc;
-	color: #ffffff;
-	zoom: 1.8;
-}
-.btn_02 {
-	border-radius: 0.3rem;
-	text-align: center;
-}
-i {
-	list-style: none;
-	color: #fff;
-}
-h2 .delate {
-	position: absolute;
-	right: 0;
-	border: 0;
-	color: #ccc;
-	opacity: 0.5;
-}
-.style-btn {
-	width: 1rem;
-	height: 0.8rem;
-	border: 1px solid #fff;
-	border-radius: 0.3rem;
-	background: rgba(17, 1, 1, 0.1);
-	color: #000;
-}
-.shop {
-	width: 100%;
-	background: #fff;
-	position: fixed;
-	bottom: 0;
-	border: 1px solid #ccc;
-	border-radius: 20px;
-	padding: 0 0.3rem;
-	ul {
-		li {
-			padding: 0.2rem 0;
-			border-bottom: 1px solid #fff;
-			button {
-				margin: 0 0.3rem;
-			}
-		}
-		.imgs {
-			display: flex;
-			justify-content: space-around;
-			div {
-				background: #ccc;
-				padding: 0.1rem 0.1rem;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				img {
-					width: 25vw;
-				}
-			}
-		}
-	}
-}
-.btnli02 {
-	display: flex;
-	justify-content: center;
-	button {
-		width: 40vw;
-	}
-	button:nth-child(2) {
-		margin-left: -0.5rem;
-	}
+.imgsss.hover {
+	background: red;
 }
 </style>

@@ -83,10 +83,19 @@ export default {
 			})
 		},
 		onSearch() {
+			this.loadShop();
+			// console.log(this.shopList);
+			for (let i in this.shopList) {
+				// if (this.shopList[i].id.indexOf(1)) {
+				// var brr = [];
+				// brr.push(this.shopList[i]);
+				console.log(this.shopList[i].title);
+				// }
+			}
 			console.log(1);
 		},
 		detialto(item, index) {
-			var arr = sessionStorage.setItem("detiallist", JSON.stringify(item))
+			var arr = localStorage.setItem("detiallist", JSON.stringify(item))
 			// console.log(item);
 			// this.send = item;
 			// Bus.$emit('values', item)
