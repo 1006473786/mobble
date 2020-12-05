@@ -1,46 +1,52 @@
 <template>
 	<div>
-		<div class="radio">
-			<form>
-				naem:<input type="radio" v-model="checkedValue" name="aa" /> age:<input
-					type="radio"
-					v-model="checkedValue"
-					name="aa"
-				/>
-				num: <input type="radio" v-model="checkedValue" name="aa" />
-			</form>
-			<button @click="add">441621</button>
+		<div
+			v-for="(item, index) in question"
+			:key="index"
+			style="padding-top: 10px"
+		>
+			<div v-if="item.item">
+				<div
+					v-for="(item3, index3) in item.item"
+					:key="index3"
+					@click="chooseHobbied(item3)"
+					style="margin-right: 20px"
+				>
+					<input type="checkbox" :value="item3" v-model="checkbox" /><span>
+						{{ item3 }}</span
+					>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
- 
 <script>
 export default {
 	data() {
 		return {
-			radioData: [
-				{ value: '5年', id: '5' },
-				{ value: '10年', id: '10' },
-				{ value: '20年', id: '20' },
-				{ value: '长期有效', id: '30' },
+			checkbox: [],
+			question: [
+				{
+					title: "2、请选择你的爱好",
+					item: [
+						'打球', '读书', '画画', '游泳', '跑步'
+					]
+				}
 			],
-			checkedValue: '',
-			answer: [],
 		};
 	},
-	//checkedValue的值就是选中的值，我们只需要实时监控他的值就可以了
-	watch: {
-		checkedValue: function () {
-			this.answer = [];
-			// this.answer.push(this.radioData[index]);
-			// this.answer = this.$refs.getvalue.value;
-			console.log(this.$refs.getvalue.checkedValue)
-			// console.log(this.answer);
-		}
-	},
 	methods: {
-		add() {
-			// console.log(this.$refs.getvalue.inner)
+		chooseHobbied(item) {
+			var box = [];
+			if (box.indexOf(item) === -1) {
+				box.push(item);
+				this.checkbox = box;
+				console.log("点击", item, "值", box);
+			} else {
+				box.splice(box.indexOf(item), 1);
+				console.log("box值", box);
+				this.checkbox = box;
+			}
 		}
 	}
 }

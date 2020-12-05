@@ -4,7 +4,7 @@ import three from '../views/three.vue'
 import For from '../views/For.vue'
 // import goShop from './goShop'
 export default [
-  {name:'one',path:'/one',component:one},
+  {name:'one',path:'/one',component:one,meta:{needLogin:true}},
   {name:'two',path:'/two',component:two},
   {name:'three',path:'/three',component:three
   // children:[

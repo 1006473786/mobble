@@ -19,7 +19,7 @@
 		<router-view></router-view>
 		<van-goods-action>
 			<van-goods-action-icon icon="chat-o" text="客服" @click="onClickIcon" />
-			<van-goods-action-icon icon="cart-o" text="购物车" @click="onClickIcon" />
+			<van-goods-action-icon icon="cart-o" text="购物车" @click="onClickCard" />
 			<van-goods-action-icon icon="shop-o" text="店铺" @click="onClickIcon" />
 			<van-goods-action-button
 				type="danger"
@@ -59,6 +59,10 @@ export default {
 	methods: {
 		onClickIcon() {
 			Toast('点击图标');
+			this.$router.push("/card")
+		},
+		onClickCard() {
+			this.$router.push("/shopCard")
 		},
 		onClickButton() {
 			this.show = !this.show;

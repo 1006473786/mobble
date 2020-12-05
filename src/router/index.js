@@ -13,11 +13,12 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/one',
+    path: '/home',
     name: 'Home',
     component: Home,
     meta: {
-      TabbarShow:true
+      TabbarShow:true,
+      needLogin:true
     },
     children:[
       ...touch
@@ -26,14 +27,18 @@ const routes = [
   {
     path: '*',
     redirect: '/one',
-    component:() =>import("../views/one.vue")
+    component:() =>import("../views/one.vue"),
+    meta:{
+      needLogin:true
+    }
 },
 {
   path: '/about',
   name: 'About',
   component: () => import( '../views/root/About.vue'),
   meta: {
-    TabbarShow:true
+    TabbarShow:true,
+    needLogin:true
   },
 },{
   path: '/login',
@@ -44,11 +49,12 @@ const routes = [
   },
 },
 {
-  path: '/setting',
-  name: 'setting',
-  component: () => import('../views/root/setting.vue'),
+  path: '/shopCard',
+  name: 'shopCard',
+  component: () => import('../views/root/shopCard.vue'),
   meta: {
-    TabbarShow:true
+    TabbarShow:true,
+    needLogin:true
   },
 },
 ...goShop
@@ -56,6 +62,23 @@ const routes = [
 
 const router = new VueRouter({
   routes
-})
+});
 
-export default router
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.needLogin) {
+      // var cookei = document.cookie
+      var token1 = sessionStorage.getItem("token");
+      if (token1) {
+          next();
+      } else {
+          next({
+              path: '/login',
+              query: { redirect: to.fullPath }
+          });
+      }
+  } else {
+      next();
+  }
+});
+export default router;

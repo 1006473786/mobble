@@ -18,36 +18,7 @@
 			/>
 			<div style="margin: 16px">
 				<van-button round block type="info" native-type="submit">
-					提交
-				</van-button>
-			</div>
-		</van-form>
-
-		<van-form validate-first @failed="onFailed">
-			<!-- 通过 pattern 进行正则校验 -->
-			<van-field
-				v-model="value1"
-				name="pattern"
-				placeholder="正则校验"
-				:rules="[{ pattern, message: '请输入正确内容' }]"
-			/>
-			<!-- 通过 validator 进行函数校验 -->
-			<van-field
-				v-model="value2"
-				name="validator"
-				placeholder="函数校验"
-				:rules="[{ validator, message: '请输入正确内容' }]"
-			/>
-			<!-- 通过 validator 进行异步函数校验 -->
-			<van-field
-				v-model="value3"
-				name="asyncValidator"
-				placeholder="异步函数校验"
-				:rules="[{ validator: asyncValidator, message: '请输入正确内容' }]"
-			/>
-			<div style="margin: 16px">
-				<van-button round block type="info" native-type="submit">
-					提交
+					登录
 				</van-button>
 			</div>
 		</van-form>
@@ -64,11 +35,45 @@ export default {
 			value2: '',
 			value3: '',
 			pattern: /\d{6}/,
+			usernames: [
+				{ id: 1, name: 111, password: 111 },
+				{ id: 2, name: 222, password: 222 },
+				{ id: 3, name: 333, password: 333 },
+				{ id: 4, name: 444, password: 444 }
+			],
+			userna: [
+				{ id: 2, name: "111", password: 111 },
+				{ id: 2, name: "222", password: 222 },
+				{ id: 2, name: "333", password: 333 },
+				{ id: 2, name: "444", password: 444 }
+			]
 		};
 	},
 	methods: {
 		onSubmit(values) {
-			console.log('submit', values);
+			console.log(this.username);
+			var token = document.cookie.split(";")[0].split("=")[1];
+			var tokens = JSON.parse(token);
+
+			for (var i = 0; i < tokens.length; i++) {
+				if (tokens[i].name == this.username) {
+					if (tokens[i].password == this.password) {
+						// 一个等于是赋值,两个等于是比较,有隐式转换,三个等于必须类型都一样
+						// 上边输入的是字符串,usernames的值是number,所以只能两个等于,三个等于报错
+						sessionStorage.setItem("token", JSON.stringify(values));
+						alert("登陆成功");
+						this.$router.push("/")
+						break;
+					} else {
+						alert("密码错误");
+						break;
+					}
+				} else {
+					alert("账号不错在");
+					break;
+				}
+			}
+
 		},
 		// 校验函数返回 true 表示校验通过，false 表示不通过
 		validator(val) {
@@ -88,7 +93,15 @@ export default {
 		onFailed(errorInfo) {
 			console.log('failed', errorInfo);
 		},
-
+		cookies() {
+			var strs = JSON.stringify(this.usernames);
+			// var strss = JSON.stringify(this.userna);
+			document.cookie = "users=" + strs;
+			// document.cookie = "users11=" + strss;
+		}
 	},
+	mounted() {
+		this.cookies();
+	}
 };
 </script>

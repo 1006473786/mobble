@@ -1,7 +1,6 @@
 <template>
 	<div>
 		<ul class="recm_title">
-			<h2>sdhfksfksfh</h2>
 			<li v-for="(item, index) in titlelist" :key="index">
 				<h2>{{ item.titles01 }}</h2>
 				<ol>

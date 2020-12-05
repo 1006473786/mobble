@@ -174,7 +174,7 @@ export default {
 		}
 	},
 	created() {
-		console.log(localStorage.cards);
+		// console.log(localStorage.cards);
 		if (localStorage.cards) {
 			this.godata = JSON.parse(localStorage.cards);
 			for (var i = 0; i < this.godata.length; i++) {

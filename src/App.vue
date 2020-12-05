@@ -9,8 +9,8 @@
 				<van-tabbar-item icon="comment-o" router-link to="/about">
 					详情
 				</van-tabbar-item>
-				<van-tabbar-item icon="setting-o" router-link to="/setting">
-					设置
+				<van-tabbar-item icon="setting-o" router-link to="/shopCard">
+					购物车
 				</van-tabbar-item>
 				<van-tabbar-item icon="friends-o" router-link to="/login">
 					我的
