@@ -12,7 +12,10 @@
 				<img :src="item.thumb" alt="1212" />
 				<div>
 					<h2>{{ item.title }}</h2>
-					<p><button>-</button>{{ item.num }} <button>+</button></p>
+					<p>
+						<button @click="minues(item)">-</button>{{ item.num }}
+						<button @click="add(item)">+</button>
+					</p>
 					<span>单价:{{ item.price }}</span>
 					<span>总价:{{ item.total }}元</span>
 				</div>
@@ -60,7 +63,27 @@ export default {
 				var crr = this.arr.splice(index, 1, 0);
 				this.totalAll -= crr;
 			}
+		},
+		minues(item) {
+			item.num--;
+			item.total = item.num * item.price;
+		},
+		add(item) {
+			item.num++;
+			item.total = item.num * item.price;
 		}
+	},
+	watch: {
+		cardData: {
+			handler(mews, old) {
+				console.log("old", old);
+			},
+			// immediate: false,
+			// deep: true
+		}
+		// cardDate(news, old) {
+		// 			console.log(news);
+		// 		}
 	},
 	mounted() {
 		this.cardData = JSON.parse(localStorage.getItem("cards"));
